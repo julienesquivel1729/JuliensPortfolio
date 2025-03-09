@@ -14,9 +14,13 @@
             color: darkred;
             font-size: 28px;
         }
+        .matrix-container-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
         .matrix-container {
-            display: inline-block;
-            margin: 10px;
             padding: 15px;
             background: #111;
             border-radius: 5px;
@@ -67,6 +71,11 @@
             display: inline-block;
             background: black;
         }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
     </style>
     <script>
         function createMatrixInputs() {
@@ -106,11 +115,10 @@
 
             resultMatrix.innerHTML = "<h3>Result:</h3>";
 
-            let output = "<div class='matrix-output'>";
+            let output = "<div class='matrix-output'>(<br>";
 
-            output += "⎡ ";
             for (let i = 0; i < rows; i++) {
-                if (i > 0) output += "<br>⎢ ";
+                output += "[ ";
                 for (let j = 0; j < cols; j++) {
                     let valA = parseFloat(document.getElementById(`a-${i}-${j}`).value) || 0;
                     let valB = parseFloat(document.getElementById(`b-${i}-${j}`).value) || 0;
@@ -118,13 +126,18 @@
 
                     output += sum + " ";
                 }
-                output += " ⎥";
+                output += "]<br>";
             }
-            output += "<br>⎣";
-            for (let j = 0; j < cols; j++) output += "   ";
-            output += "⎦ </div>";
+
+            output += ")</div>";
 
             resultMatrix.innerHTML += output;
+        }
+
+        function resetMatrices() {
+            document.getElementById("matrixA").innerHTML = "";
+            document.getElementById("matrixB").innerHTML = "";
+            document.getElementById("resultMatrix").innerHTML = "";
         }
     </script>
 </head>
@@ -139,18 +152,24 @@
 
     <button onclick="createMatrixInputs()">Create Matrices</button>
 
-    <div class="matrix-container">
-        <h3>Matrix A</h3>
-        <div id="matrixA" class="matrix"></div>
+    <div class="matrix-container-wrapper">
+        <div class="matrix-container">
+            <h3>Matrix A</h3>
+            <div id="matrixA" class="matrix"></div>
+        </div>
+
+        <div class="matrix-container">
+            <h3>Matrix B</h3>
+            <div id="matrixB" class="matrix"></div>
+        </div>
     </div>
 
-    <div class="matrix-container">
-        <h3>Matrix B</h3>
-        <div id="matrixB" class="matrix"></div>
+    <div class="button-container">
+        <button onclick="addMatrices()">Add Matrices</button>
+        <button onclick="resetMatrices()">Reset</button>
     </div>
-
-    <button onclick="addMatrices()">Add Matrices</button>
 
     <div id="resultMatrix" class="result-container"></div>
 </body>
 </html>
+
