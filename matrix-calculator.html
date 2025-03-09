@@ -115,38 +115,45 @@
 
     resultMatrix.innerHTML = "<h3>Result:</h3>";
 
-    let output = "<div class='matrix-output'>";
-    
+    let output = "<div class='matrix-output'><pre>"; // Use <pre> to maintain spacing
+
     // Top bracket
-    output += "⎡ ";
+    output += " ⎡ ";
     for (let j = 0; j < cols; j++) {
-        output += " ";  // Adds space for alignment
+        output += "   "; // Uniform spacing
     }
-    output += " ⎤<br>";
+    output += " ⎤\n";
 
     for (let i = 0; i < rows; i++) {
-        // Middle bracket
-        if (i == rows - 1) {
-            output += "⎣ ";
+        // Left bracket
+        if (i === rows - 1) {
+            output += " ⎣ ";
         } else {
-            output += "⎢ ";
+            output += " ⎢ ";
         }
 
+        // Numbers in the row
         for (let j = 0; j < cols; j++) {
             let valA = parseFloat(document.getElementById(`a-${i}-${j}`).value) || 0;
             let valB = parseFloat(document.getElementById(`b-${i}-${j}`).value) || 0;
             let sum = valA + valB;
 
-            output += sum + " "; // Adds space between numbers
+            output += sum.toString().padStart(4, " "); // Ensures proper spacing
         }
 
         // Right bracket
-        if (i == rows - 1) {
-            output += " ⎦<br>";
+        if (i === rows - 1) {
+            output += " ⎦\n";
         } else {
-            output += " ⎥<br>";
+            output += " ⎥\n";
         }
     }
+
+    output += "</pre></div>";
+
+    resultMatrix.innerHTML += output;
+}
+
 
     output += "</div>";
 
