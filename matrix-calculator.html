@@ -44,26 +44,16 @@
             border: 1px solid darkred;
             border-radius: 3px;
         }
-        button {
+        button, select {
             padding: 12px 20px;
-            margin-top: 15px;
+            font-size: 18px;
             background: darkred;
             color: white;
             border: none;
-            cursor: pointer;
-            font-size: 18px;
             border-radius: 5px;
         }
         button:hover {
             background: #aa0000;
-        }
-        select {
-            padding: 12px 20px;
-            font-size: 18px;
-            background: darkred;
-            color: white;
-            border: none;
-            border-radius: 5px;
         }
         .delete-btn {
             position: absolute;
@@ -99,13 +89,13 @@
         }
     </style>
     <script>
-        let matrixCount = 2;
+        let matrixCount = 0;
         const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         function addMatrix() {
             if (matrixCount >= alphabet.length) return;
-            let matrixLabel = alphabet[matrixCount];
 
+            let matrixLabel = alphabet[matrixCount];
             let container = document.createElement("div");
             container.classList.add("matrix-container");
             container.id = `matrix-container-${matrixCount}`;
@@ -124,8 +114,16 @@
             let container = document.getElementById(`matrix-container-${index}`);
             if (container) {
                 container.remove();
-                matrixCount--;
             }
+        }
+
+        function generateMatrices() {
+            let matricesWrapper = document.getElementById("matricesWrapper");
+            matricesWrapper.innerHTML = ""; 
+            matrixCount = 0;
+
+            addMatrix();  // Start with matrix A
+            addMatrix();  // Start with matrix B
         }
 
         function createMatrixInputs() {
@@ -205,6 +203,7 @@
         <option value="scalar">Scalar Multiplication</option>
     </select>
     <button onclick="addMatrix()">Add Another Matrix</button>
+    <button onclick="generateMatrices()">Reset & Start Over</button>
     <div id="matricesWrapper"></div>
     <div class="button-container">
         <button onclick="createMatrixInputs()">Generate Matrices</button>
