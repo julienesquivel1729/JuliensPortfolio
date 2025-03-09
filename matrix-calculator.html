@@ -2,6 +2,63 @@
 <html>
 <head>
     <title>Matrix Addition Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            margin: 20px;
+        }
+        h2 {
+            color: #333;
+        }
+        .matrix-container {
+            display: inline-block;
+            margin: 10px;
+            padding: 10px;
+            background: white;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+        .matrix {
+            display: grid;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .matrix input {
+            width: 50px;
+            text-align: center;
+            padding: 5px;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            background: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .result-container {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .matrix-output {
+            display: inline-block;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            font-family: monospace;
+            padding: 10px;
+            border: 2px solid black;
+            display: inline-block;
+        }
+    </style>
     <script>
         function createMatrixInputs() {
             let rows = parseInt(document.getElementById("rows").value);
@@ -10,31 +67,27 @@
             let matrixB = document.getElementById("matrixB");
             let resultMatrix = document.getElementById("resultMatrix");
 
+            // Clear previous inputs
             matrixA.innerHTML = "";
             matrixB.innerHTML = "";
             resultMatrix.innerHTML = "";
 
+            matrixA.style.gridTemplateColumns = `repeat(${cols}, 60px)`;
+            matrixB.style.gridTemplateColumns = `repeat(${cols}, 60px)`;
+
             for (let i = 0; i < rows; i++) {
-                let rowA = document.createElement("div");
-                let rowB = document.createElement("div");
-                
                 for (let j = 0; j < cols; j++) {
                     let inputA = document.createElement("input");
                     inputA.type = "number";
                     inputA.id = `a-${i}-${j}`;
-                    inputA.style.width = "50px";
 
                     let inputB = document.createElement("input");
                     inputB.type = "number";
                     inputB.id = `b-${i}-${j}`;
-                    inputB.style.width = "50px";
 
-                    rowA.appendChild(inputA);
-                    rowB.appendChild(inputB);
+                    matrixA.appendChild(inputA);
+                    matrixB.appendChild(inputB);
                 }
-
-                matrixA.appendChild(rowA);
-                matrixB.appendChild(rowB);
             }
         }
 
@@ -43,26 +96,27 @@
             let cols = parseInt(document.getElementById("cols").value);
             let resultMatrix = document.getElementById("resultMatrix");
 
+            // Clear previous result
             resultMatrix.innerHTML = "<h3>Result:</h3>";
 
-            for (let i = 0; i < rows; i++) {
-                let rowResult = document.createElement("div");
+            let output = "<div class='matrix-output'>( ";
 
+            for (let i = 0; i < rows; i++) {
+                if (i > 0) output += "<br>";
+                output += "[ ";
                 for (let j = 0; j < cols; j++) {
                     let valA = parseFloat(document.getElementById(`a-${i}-${j}`).value) || 0;
                     let valB = parseFloat(document.getElementById(`b-${i}-${j}`).value) || 0;
                     let sum = valA + valB;
 
-                    let resultSpan = document.createElement("span");
-                    resultSpan.innerText = sum + " ";
-                    resultSpan.style.display = "inline-block";
-                    resultSpan.style.width = "50px";
-
-                    rowResult.appendChild(resultSpan);
+                    output += sum + " ";
                 }
-
-                resultMatrix.appendChild(rowResult);
+                output += "] ";
             }
+
+            output += " )</div>";
+
+            resultMatrix.innerHTML += output;
         }
     </script>
 </head>
@@ -70,21 +124,25 @@
     <h2>Matrix Addition Calculator</h2>
 
     <label for="rows">Enter number of rows (m):</label>
-    <input type="number" id="rows" min="1">
-    
+    <input type="number" id="rows" min="1" value="2">
+
     <label for="cols">Enter number of columns (n):</label>
-    <input type="number" id="cols" min="1">
-    
+    <input type="number" id="cols" min="1" value="2">
+
     <button onclick="createMatrixInputs()">Create Matrices</button>
 
-    <h3>Matrix A</h3>
-    <div id="matrixA"></div>
+    <div class="matrix-container">
+        <h3>Matrix A</h3>
+        <div id="matrixA" class="matrix"></div>
+    </div>
 
-    <h3>Matrix B</h3>
-    <div id="matrixB"></div>
+    <div class="matrix-container">
+        <h3>Matrix B</h3>
+        <div id="matrixB" class="matrix"></div>
+    </div>
 
     <button onclick="addMatrices()">Add Matrices</button>
 
-    <div id="resultMatrix"></div>
+    <div id="resultMatrix" class="result-container"></div>
 </body>
 </html>
