@@ -26,6 +26,7 @@
             background: #111;
             border-radius: 5px;
             box-shadow: 2px 2px 15px rgba(255, 0, 0, 0.5);
+            position: relative;
         }
         .matrix {
             display: grid;
@@ -56,6 +57,22 @@
         button:hover {
             background: #aa0000;
         }
+        select {
+            padding: 12px 20px;
+            font-size: 18px;
+            background: darkred;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            font-size: 14px;
+            background: #aa0000;
+        }
         .result-container {
             font-size: 24px;
             font-weight: bold;
@@ -83,32 +100,36 @@
     </style>
     <script>
         let matrixCount = 2;
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         function addMatrix() {
-            matrixCount++;
+            if (matrixCount >= alphabet.length) return;
+            let matrixLabel = alphabet[matrixCount];
+
             let container = document.createElement("div");
             container.classList.add("matrix-container");
+            container.id = `matrix-container-${matrixCount}`;
             container.innerHTML = `
-                <h3>Matrix ${matrixCount}</h3>
+                <h3>Matrix ${matrixLabel}</h3>
+                <button class="delete-btn" onclick="deleteMatrix(${matrixCount})">X</button>
                 <label>Rows:</label> <input type="number" id="rows-${matrixCount}" min="1" value="2">
                 <label>Cols:</label> <input type="number" id="cols-${matrixCount}" min="1" value="2">
                 <div id="matrix-${matrixCount}" class="matrix"></div>
             `;
             document.getElementById("matricesWrapper").appendChild(container);
+            matrixCount++;
         }
 
-        function generateMatrices() {
-            let matricesWrapper = document.getElementById("matricesWrapper");
-            matricesWrapper.innerHTML = "";
-            matrixCount = 2;
-
-            for (let i = 1; i <= matrixCount; i++) {
-                addMatrix();
+        function deleteMatrix(index) {
+            let container = document.getElementById(`matrix-container-${index}`);
+            if (container) {
+                container.remove();
+                matrixCount--;
             }
         }
 
         function createMatrixInputs() {
-            for (let i = 1; i <= matrixCount; i++) {
+            for (let i = 0; i < matrixCount; i++) {
                 let rows = parseInt(document.getElementById(`rows-${i}`).value);
                 let cols = parseInt(document.getElementById(`cols-${i}`).value);
                 let matrixDiv = document.getElementById(`matrix-${i}`);
@@ -135,7 +156,7 @@
 
             let matrixData = [];
 
-            for (let i = 1; i <= matrixCount; i++) {
+            for (let i = 0; i < matrixCount; i++) {
                 let rows = parseInt(document.getElementById(`rows-${i}`).value);
                 let cols = parseInt(document.getElementById(`cols-${i}`).value);
                 let matrix = [];
@@ -172,20 +193,6 @@
 
             resultMatrix.innerHTML += `<pre>${result.map(row => row.join(" ")).join("\n")}</pre>`;
         }
-
-        function multiplyMatrices(A, B) {
-            let rowsA = A.length, colsA = A[0].length, rowsB = B.length, colsB = B[0].length;
-            if (colsA !== rowsB) return "Invalid Dimensions for Multiplication";
-            let result = Array(rowsA).fill().map(() => Array(colsB).fill(0));
-            for (let i = 0; i < rowsA; i++) {
-                for (let j = 0; j < colsB; j++) {
-                    for (let k = 0; k < colsA; k++) {
-                        result[i][j] += A[i][k] * B[k][j];
-                    }
-                }
-            }
-            return result;
-        }
     </script>
 </head>
 <body>
@@ -199,9 +206,10 @@
     </select>
     <button onclick="addMatrix()">Add Another Matrix</button>
     <div id="matricesWrapper"></div>
-    <button onclick="createMatrixInputs()">Generate Matrices</button>
-    <button onclick="performOperation()">Calculate</button>
+    <div class="button-container">
+        <button onclick="createMatrixInputs()">Generate Matrices</button>
+        <button onclick="performOperation()">Calculate</button>
+    </div>
     <div id="resultMatrix" class="result-container"></div>
 </body>
 </html>
-
