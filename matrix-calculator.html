@@ -6,57 +6,66 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: #f4f4f4;
+            background-color: black;
+            color: darkred;
             margin: 20px;
         }
         h2 {
-            color: #333;
+            color: darkred;
+            font-size: 28px;
         }
         .matrix-container {
             display: inline-block;
             margin: 10px;
-            padding: 10px;
-            background: white;
-            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+            padding: 15px;
+            background: #111;
             border-radius: 5px;
+            box-shadow: 2px 2px 15px rgba(255, 0, 0, 0.5);
         }
         .matrix {
             display: grid;
-            gap: 5px;
+            gap: 8px;
             margin-bottom: 10px;
         }
         .matrix input {
             width: 50px;
+            height: 30px;
             text-align: center;
+            font-size: 16px;
             padding: 5px;
+            background: #222;
+            color: darkred;
+            border: 1px solid darkred;
+            border-radius: 3px;
         }
         button {
-            padding: 10px;
-            margin-top: 10px;
-            background: #007BFF;
+            padding: 12px 20px;
+            margin-top: 15px;
+            background: darkred;
             color: white;
             border: none;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 18px;
             border-radius: 5px;
         }
         button:hover {
-            background: #0056b3;
+            background: #aa0000;
         }
         .result-container {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: bold;
             margin-top: 20px;
         }
         .matrix-output {
             display: inline-block;
             text-align: center;
-            font-size: 18px;
+            font-size: 22px;
             font-weight: bold;
             font-family: monospace;
-            padding: 10px;
-            border: 2px solid black;
+            padding: 15px;
+            border: 3px solid darkred;
             display: inline-block;
+            background: black;
         }
     </style>
     <script>
@@ -67,7 +76,6 @@
             let matrixB = document.getElementById("matrixB");
             let resultMatrix = document.getElementById("resultMatrix");
 
-            // Clear previous inputs
             matrixA.innerHTML = "";
             matrixB.innerHTML = "";
             resultMatrix.innerHTML = "";
@@ -96,14 +104,13 @@
             let cols = parseInt(document.getElementById("cols").value);
             let resultMatrix = document.getElementById("resultMatrix");
 
-            // Clear previous result
             resultMatrix.innerHTML = "<h3>Result:</h3>";
 
-            let output = "<div class='matrix-output'>( ";
+            let output = "<div class='matrix-output'>";
 
+            output += "⎡ ";
             for (let i = 0; i < rows; i++) {
-                if (i > 0) output += "<br>";
-                output += "[ ";
+                if (i > 0) output += "<br>⎢ ";
                 for (let j = 0; j < cols; j++) {
                     let valA = parseFloat(document.getElementById(`a-${i}-${j}`).value) || 0;
                     let valB = parseFloat(document.getElementById(`b-${i}-${j}`).value) || 0;
@@ -111,10 +118,11 @@
 
                     output += sum + " ";
                 }
-                output += "] ";
+                output += " ⎥";
             }
-
-            output += " )</div>";
+            output += "<br>⎣";
+            for (let j = 0; j < cols; j++) output += "   ";
+            output += "⎦ </div>";
 
             resultMatrix.innerHTML += output;
         }
