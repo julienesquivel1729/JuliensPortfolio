@@ -1,0 +1,3 @@
+# Linear Algebra Notes
+## Basis and Dimension
+A set of vectors \(\{v_1, v_2, ..., v_n\}\) is a basis if...
