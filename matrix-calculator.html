@@ -14,19 +14,14 @@
             color: darkred;
             font-size: 28px;
         }
-        .matrix-container-wrapper {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
         .matrix-container {
             padding: 15px;
             background: #111;
             border-radius: 5px;
             box-shadow: 2px 2px 15px rgba(255, 0, 0, 0.5);
             position: relative;
+            margin: 10px auto;
+            width: fit-content;
         }
         .matrix {
             display: grid;
@@ -38,7 +33,6 @@
             height: 30px;
             text-align: center;
             font-size: 16px;
-            padding: 5px;
             background: #222;
             color: darkred;
             border: 1px solid darkred;
@@ -51,6 +45,7 @@
             color: white;
             border: none;
             border-radius: 5px;
+            margin: 5px;
         }
         button:hover {
             background: #aa0000;
@@ -67,12 +62,10 @@
             font-size: 24px;
             font-weight: bold;
             margin-top: 20px;
+            text-align: center;
         }
         .matrix-output {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+            display: block;
             text-align: center;
             font-size: 22px;
             font-weight: bold;
@@ -81,12 +74,6 @@
             background: black;
             white-space: pre;
         }
-        .button-container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
     </style>
     <script>
         let matrixCount = 0;
@@ -94,8 +81,8 @@
 
         function addMatrix() {
             if (matrixCount >= alphabet.length) return;
-
             let matrixLabel = alphabet[matrixCount];
+
             let container = document.createElement("div");
             container.classList.add("matrix-container");
             container.id = `matrix-container-${matrixCount}`;
@@ -119,11 +106,11 @@
 
         function generateMatrices() {
             let matricesWrapper = document.getElementById("matricesWrapper");
-            matricesWrapper.innerHTML = ""; 
+            matricesWrapper.innerHTML = "";
             matrixCount = 0;
 
-            addMatrix();  // Start with matrix A
-            addMatrix();  // Start with matrix B
+            addMatrix(); // Start with A
+            addMatrix(); // Start with B
         }
 
         function createMatrixInputs() {
@@ -181,7 +168,7 @@
                     result = multiplyMatrices(matrixData[0], matrixData[1]);
                     break;
                 case "transpose":
-                    result = matrixData[0][0].map((_, i) => matrixData[0].map(row => row[i]));
+                    result = transposeMatrix(matrixData[0]);
                     break;
                 case "scalar":
                     let scalar = parseFloat(prompt("Enter scalar value:")) || 1;
@@ -189,7 +176,28 @@
                     break;
             }
 
-            resultMatrix.innerHTML += `<pre>${result.map(row => row.join(" ")).join("\n")}</pre>`;
+            if (typeof result === "string") {
+                resultMatrix.innerHTML += `<p>${result}</p>`;
+            } else {
+                resultMatrix.innerHTML += `<pre>${result.map(row => row.join(" ")).join("\n")}</pre>`;
+            }
+        }
+
+        function multiplyMatrices(A, B) {
+            if (A[0].length !== B.length) return "Error: Invalid dimensions for multiplication";
+            let result = Array(A.length).fill().map(() => Array(B[0].length).fill(0));
+            for (let i = 0; i < A.length; i++) {
+                for (let j = 0; j < B[0].length; j++) {
+                    for (let k = 0; k < B.length; k++) {
+                        result[i][j] += A[i][k] * B[k][j];
+                    }
+                }
+            }
+            return result;
+        }
+
+        function transposeMatrix(matrix) {
+            return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
         }
     </script>
 </head>
@@ -205,10 +213,8 @@
     <button onclick="addMatrix()">Add Another Matrix</button>
     <button onclick="generateMatrices()">Reset & Start Over</button>
     <div id="matricesWrapper"></div>
-    <div class="button-container">
-        <button onclick="createMatrixInputs()">Generate Matrices</button>
-        <button onclick="performOperation()">Calculate</button>
-    </div>
+    <button onclick="createMatrixInputs()">Generate Matrices</button>
+    <button onclick="performOperation()">Calculate</button>
     <div id="resultMatrix" class="result-container"></div>
 </body>
 </html>
