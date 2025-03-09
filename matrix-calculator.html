@@ -108,31 +108,51 @@
             }
         }
 
-        function addMatrices() {
-            let rows = parseInt(document.getElementById("rows").value);
-            let cols = parseInt(document.getElementById("cols").value);
-            let resultMatrix = document.getElementById("resultMatrix");
+       function addMatrices() {
+    let rows = parseInt(document.getElementById("rows").value);
+    let cols = parseInt(document.getElementById("cols").value);
+    let resultMatrix = document.getElementById("resultMatrix");
 
-            resultMatrix.innerHTML = "<h3>Result:</h3>";
+    resultMatrix.innerHTML = "<h3>Result:</h3>";
 
-            let output = "<div class='matrix-output'>(<br>";
+    let output = "<div class='matrix-output'>";
+    
+    // Top bracket
+    output += "⎡ ";
+    for (let j = 0; j < cols; j++) {
+        output += " ";  // Adds space for alignment
+    }
+    output += " ⎤<br>";
 
-            for (let i = 0; i < rows; i++) {
-                output += "[ ";
-                for (let j = 0; j < cols; j++) {
-                    let valA = parseFloat(document.getElementById(`a-${i}-${j}`).value) || 0;
-                    let valB = parseFloat(document.getElementById(`b-${i}-${j}`).value) || 0;
-                    let sum = valA + valB;
-
-                    output += sum + " ";
-                }
-                output += "]<br>";
-            }
-
-            output += ")</div>";
-
-            resultMatrix.innerHTML += output;
+    for (let i = 0; i < rows; i++) {
+        // Middle bracket
+        if (i == rows - 1) {
+            output += "⎣ ";
+        } else {
+            output += "⎢ ";
         }
+
+        for (let j = 0; j < cols; j++) {
+            let valA = parseFloat(document.getElementById(`a-${i}-${j}`).value) || 0;
+            let valB = parseFloat(document.getElementById(`b-${i}-${j}`).value) || 0;
+            let sum = valA + valB;
+
+            output += sum + " "; // Adds space between numbers
+        }
+
+        // Right bracket
+        if (i == rows - 1) {
+            output += " ⎦<br>";
+        } else {
+            output += " ⎥<br>";
+        }
+    }
+
+    output += "</div>";
+
+    resultMatrix.innerHTML += output;
+}
+
 
         function resetMatrices() {
             document.getElementById("matrixA").innerHTML = "";
