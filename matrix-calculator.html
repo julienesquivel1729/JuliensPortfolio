@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Matrix Addition Calculator</title>
+    <title>Matrix Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: gray;
+            background-color: black;
             color: darkred;
             margin: 20px;
         }
@@ -19,6 +19,7 @@
             justify-content: center;
             gap: 30px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
         .matrix-container {
             padding: 15px;
@@ -71,110 +72,136 @@
             font-family: monospace;
             padding: 15px;
             background: black;
-            white-space: pre; /* Keeps even spacing */
+            white-space: pre;
         }
         .button-container {
             display: flex;
             justify-content: center;
             gap: 20px;
+            flex-wrap: wrap;
         }
     </style>
     <script>
+        let matrixCount = 2;
+
+        function addMatrix() {
+            matrixCount++;
+            let container = document.createElement("div");
+            container.classList.add("matrix-container");
+            container.innerHTML = `
+                <h3>Matrix ${matrixCount}</h3>
+                <label>Rows:</label> <input type="number" id="rows-${matrixCount}" min="1" value="2">
+                <label>Cols:</label> <input type="number" id="cols-${matrixCount}" min="1" value="2">
+                <div id="matrix-${matrixCount}" class="matrix"></div>
+            `;
+            document.getElementById("matricesWrapper").appendChild(container);
+        }
+
+        function generateMatrices() {
+            let matricesWrapper = document.getElementById("matricesWrapper");
+            matricesWrapper.innerHTML = "";
+            matrixCount = 2;
+
+            for (let i = 1; i <= matrixCount; i++) {
+                addMatrix();
+            }
+        }
+
         function createMatrixInputs() {
-            let rows = parseInt(document.getElementById("rows").value);
-            let cols = parseInt(document.getElementById("cols").value);
-            
-            let matrixA = document.getElementById("matrixA");
-            let matrixB = document.getElementById("matrixB");
-            let resultMatrix = document.getElementById("resultMatrix");
+            for (let i = 1; i <= matrixCount; i++) {
+                let rows = parseInt(document.getElementById(`rows-${i}`).value);
+                let cols = parseInt(document.getElementById(`cols-${i}`).value);
+                let matrixDiv = document.getElementById(`matrix-${i}`);
 
-            // Clear previous matrices
-            matrixA.innerHTML = "";
-            matrixB.innerHTML = "";
-            resultMatrix.innerHTML = "";
+                matrixDiv.innerHTML = "";
+                matrixDiv.style.display = "grid";
+                matrixDiv.style.gridTemplateColumns = `repeat(${cols}, 60px)`;
 
-            // Ensure matrices are displayed as grids
-            matrixA.style.display = "grid";
-            matrixB.style.display = "grid";
-            matrixA.style.gridTemplateColumns = `repeat(${cols}, 60px)`;
-            matrixB.style.gridTemplateColumns = `repeat(${cols}, 60px)`;
-
-            for (let i = 0; i < rows; i++) {
-                for (let j = 0; j < cols; j++) {
-                    let inputA = document.createElement("input");
-                    inputA.type = "number";
-                    inputA.id = `a-${i}-${j}`;
-
-                    let inputB = document.createElement("input");
-                    inputB.type = "number";
-                    inputB.id = `b-${i}-${j}`;
-
-                    matrixA.appendChild(inputA);
-                    matrixB.appendChild(inputB);
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        let input = document.createElement("input");
+                        input.type = "number";
+                        input.id = `m-${i}-${r}-${c}`;
+                        matrixDiv.appendChild(input);
+                    }
                 }
             }
         }
 
-        function addMatrices() {
-            let rows = parseInt(document.getElementById("rows").value);
-            let cols = parseInt(document.getElementById("cols").value);
+        function performOperation() {
+            let operation = document.getElementById("operation").value;
             let resultMatrix = document.getElementById("resultMatrix");
-
             resultMatrix.innerHTML = "<h3>Result:</h3>";
 
-            let output = "<div class='matrix-output'><pre>";
+            let matrixData = [];
 
-            for (let i = 0; i < rows; i++) {
-                for (let j = 0; j < cols; j++) {
-                    let valA = parseFloat(document.getElementById(`a-${i}-${j}`).value) || 0;
-                    let valB = parseFloat(document.getElementById(`b-${i}-${j}`).value) || 0;
-                    let sum = valA + valB;
+            for (let i = 1; i <= matrixCount; i++) {
+                let rows = parseInt(document.getElementById(`rows-${i}`).value);
+                let cols = parseInt(document.getElementById(`cols-${i}`).value);
+                let matrix = [];
 
-                    output += sum.toString().padStart(5, " "); // Even column spacing
+                for (let r = 0; r < rows; r++) {
+                    let row = [];
+                    for (let c = 0; c < cols; c++) {
+                        row.push(parseFloat(document.getElementById(`m-${i}-${r}-${c}`).value) || 0);
+                    }
+                    matrix.push(row);
                 }
-                output += "\n"; // Move to the next row
+                matrixData.push(matrix);
             }
 
-            output += "</pre></div>";
+            let result;
+            switch (operation) {
+                case "addition":
+                    result = matrixData.reduce((acc, curr) => acc.map((row, i) => row.map((val, j) => val + curr[i][j])));
+                    break;
+                case "subtraction":
+                    result = matrixData.reduce((acc, curr) => acc.map((row, i) => row.map((val, j) => val - curr[i][j])));
+                    break;
+                case "multiplication":
+                    result = multiplyMatrices(matrixData[0], matrixData[1]);
+                    break;
+                case "transpose":
+                    result = matrixData[0][0].map((_, i) => matrixData[0].map(row => row[i]));
+                    break;
+                case "scalar":
+                    let scalar = parseFloat(prompt("Enter scalar value:")) || 1;
+                    result = matrixData[0].map(row => row.map(val => val * scalar));
+                    break;
+            }
 
-            resultMatrix.innerHTML += output;
+            resultMatrix.innerHTML += `<pre>${result.map(row => row.join(" ")).join("\n")}</pre>`;
         }
 
-        function resetMatrices() {
-            document.getElementById("matrixA").innerHTML = "";
-            document.getElementById("matrixB").innerHTML = "";
-            document.getElementById("resultMatrix").innerHTML = "";
+        function multiplyMatrices(A, B) {
+            let rowsA = A.length, colsA = A[0].length, rowsB = B.length, colsB = B[0].length;
+            if (colsA !== rowsB) return "Invalid Dimensions for Multiplication";
+            let result = Array(rowsA).fill().map(() => Array(colsB).fill(0));
+            for (let i = 0; i < rowsA; i++) {
+                for (let j = 0; j < colsB; j++) {
+                    for (let k = 0; k < colsA; k++) {
+                        result[i][j] += A[i][k] * B[k][j];
+                    }
+                }
+            }
+            return result;
         }
     </script>
 </head>
 <body>
-    <h2>Matrix Addition Calculator</h2>
-
-    <label for="rows">Enter number of rows (m):</label>
-    <input type="number" id="rows" min="1" value="2">
-
-    <label for="cols">Enter number of columns (n):</label>
-    <input type="number" id="cols" min="1" value="2">
-
-    <button onclick="createMatrixInputs()">Create Matrices</button>
-
-    <div class="matrix-container-wrapper">
-        <div class="matrix-container">
-            <h3>Matrix A</h3>
-            <div id="matrixA" class="matrix"></div>
-        </div>
-
-        <div class="matrix-container">
-            <h3>Matrix B</h3>
-            <div id="matrixB" class="matrix"></div>
-        </div>
-    </div>
-
-    <div class="button-container">
-        <button onclick="addMatrices()">Add Matrices</button>
-        <button onclick="resetMatrices()">Reset</button>
-    </div>
-
+    <h2>Matrix Calculator</h2>
+    <select id="operation">
+        <option value="addition">Addition</option>
+        <option value="subtraction">Subtraction</option>
+        <option value="multiplication">Multiplication</option>
+        <option value="transpose">Transpose</option>
+        <option value="scalar">Scalar Multiplication</option>
+    </select>
+    <button onclick="addMatrix()">Add Another Matrix</button>
+    <div id="matricesWrapper"></div>
+    <button onclick="createMatrixInputs()">Generate Matrices</button>
+    <button onclick="performOperation()">Calculate</button>
     <div id="resultMatrix" class="result-container"></div>
 </body>
 </html>
+
