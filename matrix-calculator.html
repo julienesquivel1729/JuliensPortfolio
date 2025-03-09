@@ -61,15 +61,17 @@
             margin-top: 20px;
         }
         .matrix-output {
-            display: inline-block;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             text-align: center;
             font-size: 22px;
             font-weight: bold;
             font-family: monospace;
             padding: 15px;
-            border: 3px solid darkred;
             background: black;
-            white-space: pre; /* Ensures numbers stack evenly */
+            white-space: pre; /* Keeps even spacing */
         }
         .button-container {
             display: flex;
