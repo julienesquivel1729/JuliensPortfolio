@@ -1,6 +1,5 @@
 # Welcome to My Math Notes
-This site contains course notes for various topics in mathematics.
-
+I created this website to post notes for various undergraduate and graduate level math courses. Each set of notes should be sufficient to cover the material for a standard course as well as problems with solutions.
 ## Topics:
 - [Linear Algebra](linear-algebra.md)
 - [Analysis](analysis.md)
