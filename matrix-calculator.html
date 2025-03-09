@@ -69,6 +69,7 @@
             padding: 15px;
             border: 3px solid darkred;
             background: black;
+            white-space: pre; /* Ensures numbers stack evenly */
         }
         .button-container {
             display: flex;
@@ -121,36 +122,15 @@
 
             let output = "<div class='matrix-output'><pre>";
 
-            // Top bracket
-            output += " ⎡";
-            for (let j = 0; j < cols; j++) {
-                output += "     ";
-            }
-            output += " ⎤\n";
-
             for (let i = 0; i < rows; i++) {
-                // Left bracket for each row
-                if (i === rows - 1) {
-                    output += " ⎣ ";
-                } else {
-                    output += " ⎢ ";
-                }
-
-                // Numbers with spacing
                 for (let j = 0; j < cols; j++) {
                     let valA = parseFloat(document.getElementById(`a-${i}-${j}`).value) || 0;
                     let valB = parseFloat(document.getElementById(`b-${i}-${j}`).value) || 0;
                     let sum = valA + valB;
 
-                    output += sum.toString().padStart(5, " "); // Keeps columns aligned
+                    output += sum.toString().padStart(5, " "); // Even column spacing
                 }
-
-                // Right bracket for each row
-                if (i === rows - 1) {
-                    output += " ⎦\n";
-                } else {
-                    output += " ⎥\n";
-                }
+                output += "\n"; // Move to the next row
             }
 
             output += "</pre></div>";
@@ -196,4 +176,3 @@
     <div id="resultMatrix" class="result-container"></div>
 </body>
 </html>
-
