@@ -79,10 +79,10 @@
         let matrixCount = 0;
         const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
+        // Adds a new matrix; matrices are labeled A, B, C...
         function addMatrix() {
             if (matrixCount >= alphabet.length) return;
             let matrixLabel = alphabet[matrixCount];
-
             let container = document.createElement("div");
             container.classList.add("matrix-container");
             container.id = `matrix-container-${matrixCount}`;
@@ -97,6 +97,7 @@
             matrixCount++;
         }
 
+        // Deletes a matrix container by its index.
         function deleteMatrix(index) {
             let container = document.getElementById(`matrix-container-${index}`);
             if (container) {
@@ -104,25 +105,24 @@
             }
         }
 
+        // Resets all matrices and starts over with Matrix A and B.
         function generateMatrices() {
             let matricesWrapper = document.getElementById("matricesWrapper");
             matricesWrapper.innerHTML = "";
             matrixCount = 0;
-
-            addMatrix(); // Start with A
-            addMatrix(); // Start with B
+            addMatrix(); // Matrix A
+            addMatrix(); // Matrix B
         }
 
+        // Generates the input fields inside each matrix container.
         function createMatrixInputs() {
             for (let i = 0; i < matrixCount; i++) {
                 let rows = parseInt(document.getElementById(`rows-${i}`).value);
                 let cols = parseInt(document.getElementById(`cols-${i}`).value);
                 let matrixDiv = document.getElementById(`matrix-${i}`);
-
                 matrixDiv.innerHTML = "";
                 matrixDiv.style.display = "grid";
                 matrixDiv.style.gridTemplateColumns = `repeat(${cols}, 60px)`;
-
                 for (let r = 0; r < rows; r++) {
                     for (let c = 0; c < cols; c++) {
                         let input = document.createElement("input");
@@ -134,18 +134,17 @@
             }
         }
 
+        // Reads the input matrices, performs the selected operation, and outputs the result.
         function performOperation() {
             let operation = document.getElementById("operation").value;
             let resultMatrix = document.getElementById("resultMatrix");
             resultMatrix.innerHTML = "<h3>Result:</h3>";
 
             let matrixData = [];
-
             for (let i = 0; i < matrixCount; i++) {
                 let rows = parseInt(document.getElementById(`rows-${i}`).value);
                 let cols = parseInt(document.getElementById(`cols-${i}`).value);
                 let matrix = [];
-
                 for (let r = 0; r < rows; r++) {
                     let row = [];
                     for (let c = 0; c < cols; c++) {
@@ -159,21 +158,39 @@
             let result;
             switch (operation) {
                 case "addition":
-                    result = matrixData.reduce((acc, curr) => acc.map((row, i) => row.map((val, j) => val + curr[i][j])));
+                    result = matrixData.reduce((acc, curr) => 
+                        acc.map((row, i) => row.map((val, j) => val + curr[i][j]))
+                    );
                     break;
                 case "subtraction":
-                    result = matrixData.reduce((acc, curr) => acc.map((row, i) => row.map((val, j) => val - curr[i][j])));
+                    result = matrixData.reduce((acc, curr) => 
+                        acc.map((row, i) => row.map((val, j) => val - curr[i][j]))
+                    );
                     break;
                 case "multiplication":
                     result = multiplyMatrices(matrixData[0], matrixData[1]);
                     break;
                 case "transpose":
-                    result = transposeMatrix(matrixData[0]);
+                    if (!matrixData[0]) {
+                        result = "❌ Error: No matrix provided for transposition.";
+                    } else {
+                        result = transposeMatrix(matrixData[0]);
+                    }
                     break;
                 case "scalar":
-                    let scalar = parseFloat(prompt("Enter scalar value:")) || 1;
-                    result = matrixData[0].map(row => row.map(val => val * scalar));
+                    if (!matrixData[0]) {
+                        result = "❌ Error: No matrix provided for scalar multiplication.";
+                    } else {
+                        let scalar = parseFloat(prompt("Enter scalar value:"));
+                        if (isNaN(scalar)) {
+                            result = "❌ Error: Invalid scalar value.";
+                        } else {
+                            result = matrixData[0].map(row => row.map(val => val * scalar));
+                        }
+                    }
                     break;
+                default:
+                    result = "❌ Unknown operation.";
             }
 
             if (typeof result === "string") {
@@ -183,9 +200,9 @@
             }
         }
 
+        // Standard matrix multiplication; checks for valid dimensions.
         function multiplyMatrices(A, B) {
             if (A[0].length !== B.length) return "❌ Error: Column count of Matrix A must match row count of Matrix B!";
-            
             let result = Array(A.length).fill().map(() => Array(B[0].length).fill(0));
             for (let i = 0; i < A.length; i++) {
                 for (let j = 0; j < B[0].length; j++) {
@@ -197,6 +214,7 @@
             return result;
         }
 
+        // Returns the transpose of the given matrix.
         function transposeMatrix(matrix) {
             return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
         }
@@ -208,8 +226,8 @@
         <option value="addition">Addition</option>
         <option value="subtraction">Subtraction</option>
         <option value="multiplication">Multiplication</option>
-        <option value="transpose">Transpose</option>
-        <option value="scalar">Scalar Multiplication</option>
+        <option value="transpose">Transpose (Matrix A)</option>
+        <option value="scalar">Scalar Multiplication (Matrix A)</option>
     </select>
     <button onclick="addMatrix()">Add Another Matrix</button>
     <button onclick="generateMatrices()">Reset & Start Over</button>
