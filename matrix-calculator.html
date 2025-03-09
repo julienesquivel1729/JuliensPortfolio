@@ -68,7 +68,6 @@
             font-family: monospace;
             padding: 15px;
             border: 3px solid darkred;
-            display: inline-block;
             background: black;
         }
         .button-container {
@@ -81,14 +80,19 @@
         function createMatrixInputs() {
             let rows = parseInt(document.getElementById("rows").value);
             let cols = parseInt(document.getElementById("cols").value);
+            
             let matrixA = document.getElementById("matrixA");
             let matrixB = document.getElementById("matrixB");
             let resultMatrix = document.getElementById("resultMatrix");
 
+            // Clear previous matrices
             matrixA.innerHTML = "";
             matrixB.innerHTML = "";
             resultMatrix.innerHTML = "";
 
+            // Ensure matrices are displayed as grids
+            matrixA.style.display = "grid";
+            matrixB.style.display = "grid";
             matrixA.style.gridTemplateColumns = `repeat(${cols}, 60px)`;
             matrixB.style.gridTemplateColumns = `repeat(${cols}, 60px)`;
 
@@ -108,58 +112,51 @@
             }
         }
 
-       function addMatrices() {
-    let rows = parseInt(document.getElementById("rows").value);
-    let cols = parseInt(document.getElementById("cols").value);
-    let resultMatrix = document.getElementById("resultMatrix");
+        function addMatrices() {
+            let rows = parseInt(document.getElementById("rows").value);
+            let cols = parseInt(document.getElementById("cols").value);
+            let resultMatrix = document.getElementById("resultMatrix");
 
-    resultMatrix.innerHTML = "<h3>Result:</h3>";
+            resultMatrix.innerHTML = "<h3>Result:</h3>";
 
-    let output = "<div class='matrix-output'><pre>"; // Use <pre> to maintain spacing
+            let output = "<div class='matrix-output'><pre>";
 
-    // Top bracket
-    output += " ⎡ ";
-    for (let j = 0; j < cols; j++) {
-        output += "   "; // Uniform spacing
-    }
-    output += " ⎤\n";
+            // Top bracket
+            output += " ⎡";
+            for (let j = 0; j < cols; j++) {
+                output += "     ";
+            }
+            output += " ⎤\n";
 
-    for (let i = 0; i < rows; i++) {
-        // Left bracket
-        if (i === rows - 1) {
-            output += " ⎣ ";
-        } else {
-            output += " ⎢ ";
+            for (let i = 0; i < rows; i++) {
+                // Left bracket for each row
+                if (i === rows - 1) {
+                    output += " ⎣ ";
+                } else {
+                    output += " ⎢ ";
+                }
+
+                // Numbers with spacing
+                for (let j = 0; j < cols; j++) {
+                    let valA = parseFloat(document.getElementById(`a-${i}-${j}`).value) || 0;
+                    let valB = parseFloat(document.getElementById(`b-${i}-${j}`).value) || 0;
+                    let sum = valA + valB;
+
+                    output += sum.toString().padStart(5, " "); // Keeps columns aligned
+                }
+
+                // Right bracket for each row
+                if (i === rows - 1) {
+                    output += " ⎦\n";
+                } else {
+                    output += " ⎥\n";
+                }
+            }
+
+            output += "</pre></div>";
+
+            resultMatrix.innerHTML += output;
         }
-
-        // Numbers in the row
-        for (let j = 0; j < cols; j++) {
-            let valA = parseFloat(document.getElementById(`a-${i}-${j}`).value) || 0;
-            let valB = parseFloat(document.getElementById(`b-${i}-${j}`).value) || 0;
-            let sum = valA + valB;
-
-            output += sum.toString().padStart(4, " "); // Ensures proper spacing
-        }
-
-        // Right bracket
-        if (i === rows - 1) {
-            output += " ⎦\n";
-        } else {
-            output += " ⎥\n";
-        }
-    }
-
-    output += "</pre></div>";
-
-    resultMatrix.innerHTML += output;
-}
-
-
-    output += "</div>";
-
-    resultMatrix.innerHTML += output;
-}
-
 
         function resetMatrices() {
             document.getElementById("matrixA").innerHTML = "";
