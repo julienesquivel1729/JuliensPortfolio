@@ -51,15 +51,6 @@
         button:hover {
             background: #5a8dff; /* Slightly Darker Blue on Hover */
         }
-        .delete-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 5px 10px;
-            font-size: 14px;
-            background: #5a8dff; /* Light Blue */
-            color: black;
-        }
         .result-container {
             font-size: 24px;
             font-weight: bold;
@@ -90,20 +81,12 @@
             container.id = `matrix-container-${matrixCount}`;
             container.innerHTML = `
                 <h3>Matrix ${matrixLabel}</h3>
-                <button class="delete-btn" onclick="deleteMatrix(${matrixCount})">X</button>
                 <label>Rows:</label> <input type="number" id="rows-${matrixCount}" min="1" value="2">
                 <label>Cols:</label> <input type="number" id="cols-${matrixCount}" min="1" value="2">
                 <div id="matrix-${matrixCount}" class="matrix"></div>
             `;
             document.getElementById("matricesWrapper").appendChild(container);
             matrixCount++;
-        }
-
-        function deleteMatrix(index) {
-            let container = document.getElementById(`matrix-container-${index}`);
-            if (container) {
-                container.remove();
-            }
         }
 
         function generateMatrices() {
@@ -218,6 +201,10 @@
         <option value="transpose">Transpose (Matrix A)</option>
         <option value="scalar">Scalar Multiplication (Matrix A)</option>
     </select>
+    <button onclick="addMatrix()">Add Another Matrix</button>
+    <button onclick="generateMatrices()">Reset & Start Over</button>
+    <div id="matricesWrapper"></div>
+    <button onclick="createMatrixInputs()">Generate Matrices</button>
     <button onclick="performOperation()">Calculate</button>
     <div id="resultMatrix" class="result-container"></div>
 </body>
