@@ -166,8 +166,22 @@
                         acc.map((row, i) => row.map((val, j) => val - curr[i][j]))
                     );
                     break;
+                case "multiplication":
+                    result = multiplyMatrices(matrixData[0], matrixData[1]);
+                    break;
+                case "transpose":
+                    result = transposeMatrix(matrixData[0]);
+                    break;
+                case "scalar":
+                    let scalar = parseFloat(prompt("Enter scalar value:", "1"));
+                    if (!isNaN(scalar)) {
+                        result = matrixData[0].map(row => row.map(val => val * scalar));
+                    } else {
+                        result = "❌ Error: Invalid scalar value.";
+                    }
+                    break;
                 default:
-                    result = "❌ Unsupported operation.";
+                    result = "❌ Unknown operation.";
             }
 
             if (typeof result === "string") {
@@ -176,6 +190,23 @@
                 resultMatrix.innerHTML += `<pre>${result.map(row => row.join(" ")).join("\n")}</pre>`;
             }
         }
+
+        function multiplyMatrices(A, B) {
+            if (A[0].length !== B.length) return "❌ Error: Column count of Matrix A must match row count of Matrix B!";
+            let result = Array(A.length).fill().map(() => Array(B[0].length).fill(0));
+            for (let i = 0; i < A.length; i++) {
+                for (let j = 0; j < B[0].length; j++) {
+                    for (let k = 0; k < B.length; k++) {
+                        result[i][j] += A[i][k] * B[k][j];
+                    }
+                }
+            }
+            return result;
+        }
+
+        function transposeMatrix(matrix) {
+            return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
+        }
     </script>
 </head>
 <body>
@@ -183,13 +214,11 @@
     <select id="operation">
         <option value="addition">Addition</option>
         <option value="subtraction">Subtraction</option>
+        <option value="multiplication">Multiplication</option>
+        <option value="transpose">Transpose (Matrix A)</option>
+        <option value="scalar">Scalar Multiplication (Matrix A)</option>
     </select>
-    <button onclick="addMatrix()">Add Another Matrix</button>
-    <button onclick="generateMatrices()">Reset & Start Over</button>
-    <div id="matricesWrapper"></div>
-    <button onclick="createMatrixInputs()">Generate Matrices</button>
     <button onclick="performOperation()">Calculate</button>
     <div id="resultMatrix" class="result-container"></div>
 </body>
 </html>
-
