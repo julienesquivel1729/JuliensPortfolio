@@ -6,19 +6,19 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            background-color: black;
-            color: darkred;
+            background-color: #2c2c2c; /* Dark Grey Background */
+            color: #d0e1ff; /* Light Blue Text */
             margin: 20px;
         }
         h2 {
-            color: darkred;
+            color: #a9c6ff; /* Softer Light Blue for Headings */
             font-size: 28px;
         }
         .matrix-container {
             padding: 15px;
-            background: #111;
+            background: #3c3c3c; /* Slightly Lighter Grey */
             border-radius: 5px;
-            box-shadow: 2px 2px 15px rgba(255, 0, 0, 0.5);
+            box-shadow: 2px 2px 15px rgba(136, 176, 255, 0.5); /* Light Blue Glow */
             position: relative;
             margin: 10px auto;
             width: fit-content;
@@ -33,22 +33,23 @@
             height: 30px;
             text-align: center;
             font-size: 16px;
-            background: #222;
-            color: darkred;
-            border: 1px solid darkred;
+            background: #4a4a4a; /* Medium Grey */
+            color: #d0e1ff; /* Light Blue Text */
+            border: 1px solid #88b0ff; /* Light Blue Borders */
             border-radius: 3px;
         }
         button, select {
             padding: 12px 20px;
             font-size: 18px;
-            background: darkred;
-            color: white;
+            background: #88b0ff; /* Light Blue Buttons */
+            color: black;
             border: none;
             border-radius: 5px;
             margin: 5px;
+            cursor: pointer;
         }
         button:hover {
-            background: #aa0000;
+            background: #5a8dff; /* Slightly Darker Blue on Hover */
         }
         .delete-btn {
             position: absolute;
@@ -56,7 +57,8 @@
             right: 10px;
             padding: 5px 10px;
             font-size: 14px;
-            background: #aa0000;
+            background: #5a8dff; /* Light Blue */
+            color: black;
         }
         .result-container {
             font-size: 24px;
@@ -71,7 +73,8 @@
             font-weight: bold;
             font-family: monospace;
             padding: 15px;
-            background: black;
+            background: #2c2c2c; /* Dark Grey */
+            color: #d0e1ff;
             white-space: pre;
         }
     </style>
@@ -163,22 +166,8 @@
                         acc.map((row, i) => row.map((val, j) => val - curr[i][j]))
                     );
                     break;
-                case "multiplication":
-                    result = multiplyMatrices(matrixData[0], matrixData[1]);
-                    break;
-                case "transpose":
-                    result = transposeMatrix(matrixData[0]);
-                    break;
-                case "scalar":
-                    let scalar = parseFloat(prompt("Enter scalar value:", "1"));
-                    if (isNaN(scalar)) {
-                        result = "❌ Error: Invalid scalar value. Please enter a number.";
-                    } else {
-                        result = matrixData[0].map(row => row.map(val => val * scalar));
-                    }
-                    break;
                 default:
-                    result = "❌ Unknown operation.";
+                    result = "❌ Unsupported operation.";
             }
 
             if (typeof result === "string") {
@@ -187,23 +176,6 @@
                 resultMatrix.innerHTML += `<pre>${result.map(row => row.join(" ")).join("\n")}</pre>`;
             }
         }
-
-        function multiplyMatrices(A, B) {
-            if (A[0].length !== B.length) return "❌ Error: Column count of Matrix A must match row count of Matrix B!";
-            let result = Array(A.length).fill().map(() => Array(B[0].length).fill(0));
-            for (let i = 0; i < A.length; i++) {
-                for (let j = 0; j < B[0].length; j++) {
-                    for (let k = 0; k < B.length; k++) {
-                        result[i][j] += A[i][k] * B[k][j];
-                    }
-                }
-            }
-            return result;
-        }
-
-        function transposeMatrix(matrix) {
-            return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
-        }
     </script>
 </head>
 <body>
@@ -211,9 +183,6 @@
     <select id="operation">
         <option value="addition">Addition</option>
         <option value="subtraction">Subtraction</option>
-        <option value="multiplication">Multiplication</option>
-        <option value="transpose">Transpose (Matrix A)</option>
-        <option value="scalar">Scalar Multiplication (Matrix A)</option>
     </select>
     <button onclick="addMatrix()">Add Another Matrix</button>
     <button onclick="generateMatrices()">Reset & Start Over</button>
@@ -223,3 +192,4 @@
     <div id="resultMatrix" class="result-container"></div>
 </body>
 </html>
+
