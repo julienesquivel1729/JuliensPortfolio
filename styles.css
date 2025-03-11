@@ -14,7 +14,7 @@ header {
 }
 
 h1 {
-     color: #a3c4f3;  /* Light Blue */
+     color: #a3c4f3 !important;  /* Light Blue */
 }
 
 nav ul {
