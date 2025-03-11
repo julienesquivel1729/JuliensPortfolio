@@ -6,101 +6,114 @@
     <title>Julien's Math Notes</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #1a1a2e; /* Dark background */
-            color: #d0e1ff; /* Light blue text */
+            font-family: 'Courier New', monospace;
+            text-align: center;
+            background-color: #1b1b1b; /* Dark chalkboard-like background */
+            color: #ddd; /* Light text for contrast */
             margin: 0;
             padding: 0;
         }
-        .header {
-            background-color: #0f3460; /* Dark blue */
-            padding: 20px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: #d0e1ff;
-        }
+        
+        /* Navigation Bar */
         .navbar {
             display: flex;
             justify-content: center;
-            background-color: #16213e; /* Deep dark blue */
+            background-color: #222;
             padding: 15px;
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
         }
+        
         .navbar a {
-            color: #d0e1ff;
             text-decoration: none;
-            padding: 10px 20px;
-            font-size: 18px;
+            color: #a0c4ff; /* Light blue accent */
+            font-size: 20px;
+            margin: 0 15px;
+            padding: 10px;
+            transition: 0.3s;
         }
+        
         .navbar a:hover {
-            background-color: #0f3460;
-            border-radius: 5px;
+            color: #ffcc66;
         }
-        .content {
-            text-align: center;
-            padding: 50px;
+
+        /* Page Title */
+        h1 {
+            font-size: 36px;
+            margin-top: 20px;
+            color: #ffcc66; /* Gold-yellow title */
         }
-        .grid-container {
+
+        /* Container for Math Topics */
+        .container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            padding: 20px;
+            padding: 40px;
             max-width: 1200px;
             margin: auto;
         }
-        .grid-item {
-            background-color: #16213e;
+
+        /* Individual Topic Cards */
+        .card {
+            background: #2b2b2b;
             padding: 20px;
             border-radius: 10px;
-            text-align: center;
-            color: #d0e1ff;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            box-shadow: 3px 3px 10px rgba(255, 255, 255, 0.1);
+            transition: 0.3s;
         }
-        .grid-item a {
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 3px 3px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .card a {
             text-decoration: none;
-            color: #d0e1ff;
-            font-size: 20px;
+            color: #a0c4ff;
+            font-size: 22px;
             font-weight: bold;
         }
-        .grid-item:hover {
-            background-color: #0f3460;
-        }
+
+        /* Footer */
         .footer {
-            background-color: #0f3460;
-            text-align: center;
-            padding: 15px;
+            background: #222;
+            padding: 20px;
+            color: #888;
+            font-size: 14px;
             margin-top: 30px;
-            color: #d0e1ff;
         }
     </style>
 </head>
 <body>
-    
-    <div class="header">Julien's Math Notes</div>
-    
+
+    <!-- Navigation -->
     <div class="navbar">
         <a href="index.html">Home</a>
         <a href="linear-algebra.html">Linear Algebra</a>
         <a href="matrix-calculator.html">Matrix Calculator</a>
-        <a href="actuarial-prep.html">Actuarial Prep</a>
+        <a href="#">Actuarial Prep</a>
     </div>
-    
-    <div class="content">
-        <h2>Welcome to Julien's Math Notes</h2>
-        <p>Explore structured math notes and interactive tools for learning.</p>
+
+    <!-- Title -->
+    <h1>Julien's Math Notes</h1>
+
+    <!-- Grid Layout for Topics -->
+    <div class="container">
+        <div class="card">
+            <a href="linear-algebra.html">📘 Linear Algebra Notes</a>
+        </div>
+        <div class="card">
+            <a href="matrix-calculator.html">🔢 Matrix Calculator</a>
+        </div>
+        <div class="card">
+            <a href="#">📊 Actuarial Prep (Coming Soon)</a>
+        </div>
     </div>
-    
-    <div class="grid-container">
-        <div class="grid-item"><a href="linear-algebra.html">Linear Algebra</a></div>
-        <div class="grid-item"><a href="matrix-calculator.html">Matrix Calculator</a></div>
-        <div class="grid-item"><a href="actuarial-prep.html">Actuarial Prep</a></div>
-        <div class="grid-item"><a href="calculus.html">Calculus</a></div>
-        <div class="grid-item"><a href="other-math.html">Other Topics</a></div>
-    </div>
-    
+
+    <!-- Footer -->
     <div class="footer">
-        &copy; 2024 Julien Esquivel | Contact: [Your Email] | Follow on [Social Media]
+        <p>© 2024 Julien's Math Notes. All Rights Reserved.</p>
     </div>
-    
+
 </body>
 </html>
