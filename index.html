@@ -4,161 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Julien's Math Notes</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
-
-        body {
-            font-family: 'Indie Flower', cursive;
-            text-align: center;
-            background-color: #1b1b1b;
-            color: #ddd;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-        
-        /* Navigation Bar */
-        .navbar {
-            display: flex;
-            justify-content: center;
-            background-color: #222;
-            padding: 15px;
-            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
-            width: 100%;
-        }
-        
-        .navbar a {
-            text-decoration: none;
-            color: #a0c4ff;
-            font-size: 20px;
-            margin: 0 15px;
-            padding: 10px;
-            transition: 0.3s;
-        }
-        
-        .navbar a:hover {
-            color: #ffcc66;
-        }
-
-        /* Page Title */
-        h1 {
-            font-size: 48px;
-            margin-top: 20px;
-            color: #ffcc66;
-            text-shadow: 3px 3px 5px rgba(255, 255, 255, 0.2);
-        }
-
-        /* Grid Layout */
-        .container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            padding: 50px;
-            max-width: 1200px;
-            margin: auto;
-        }
-
-        /* Topic Cards */
-        .card {
-            background: #2b2b2b;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 5px 5px 15px rgba(255, 255, 255, 0.2);
-            transition: 0.3s;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .card img {
-            width: 100%;
-            max-height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-            margin-bottom: 15px;
-        }
-
-        .card:hover {
-            transform: scale(1.05);
-            box-shadow: 5px 5px 20px rgba(255, 255, 255, 0.3);
-        }
-
-        .card a {
-            text-decoration: none;
-            color: #a0c4ff;
-            font-size: 22px;
-            font-weight: bold;
-            display: block;
-        }
-
-        /* Decorative Side Elements */
-        .side-decor {
-            position: fixed;
-            top: 20%;
-            width: 80px;
-        }
-
-        .left-decor {
-            left: 5%;
-        }
-
-        .right-decor {
-            right: 5%;
-        }
-
-        /* Footer */
-        .footer {
-            background: #222;
-            padding: 20px;
-            color: #888;
-            font-size: 14px;
-            margin-top: 30px;
-            width: 100%;
-        }
-
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <header>
+        <h1>Julien's Math Notes</h1>
+        <p>Educational and professional content on mathematical modeling, actuarial science, and computational math.</p>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="linear-algebra.html">Linear Algebra</a></li>
+                <li><a href="matrix-calculator.html">Matrix Calculator</a></li>
+                <li><a href="actuarial-prep.html">Actuarial Prep</a></li>
+            </ul>
+        </nav>
+    </header>
 
-    <!-- Navigation -->
-    <div class="navbar">
-        <a href="index.html">Home</a>
-        <a href="linear-algebra.html">Linear Algebra</a>
-        <a href="matrix-calculator.html">Matrix Calculator</a>
-        <a href="#">Actuarial Prep</a>
-    </div>
-
-    <!-- Title -->
-    <h1>Julien's Math Notes</h1>
-
-    <!-- Decorative Side Images -->
-    <img src="path-to-potted-plant-left.png" class="side-decor left-decor">
-    <img src="path-to-potted-plant-right.png" class="side-decor right-decor">
-
-    <!-- Grid Layout -->
-    <div class="container">
-        <div class="card">
-            <img src="path-to-linear-algebra-image.png" alt="Linear Algebra">
-            <a href="linear-algebra.html">📘 Linear Algebra Notes</a>
+    <section class="grid-container">
+        <div class="grid-item">
+            <img src="images/linear-algebra.jpg" alt="Linear Algebra">
+            <h2>Linear Algebra Notes</h2>
+            <p>Explore concepts such as vector spaces, transformations, and matrices.</p>
+            <a href="linear-algebra.html" class="button">Go to Linear Algebra</a>
         </div>
-        <div class="card">
-            <img src="path-to-matrix-calculator-image.png" alt="Matrix Calculator">
-            <a href="matrix-calculator.html">🔢 Matrix Calculator</a>
-        </div>
-        <div class="card">
-            <img src="path-to-actuarial-prep-image.png" alt="Actuarial Prep">
-            <a href="#">📊 Actuarial Prep (Coming Soon)</a>
-        </div>
-    </div>
 
-    <!-- Footer -->
-    <div class="footer">
-        <p>© 2024 Julien's Math Notes. All Rights Reserved.</p>
-    </div>
+        <div class="grid-item">
+            <img src="images/matrix-calculator.jpg" alt="Matrix Calculator">
+            <h2>Matrix Calculator</h2>
+            <p>Perform operations like matrix multiplication, transposition, and more.</p>
+            <a href="matrix-calculator.html" class="button">Use Calculator</a>
+        </div>
 
+        <div class="grid-item">
+            <img src="images/actuarial-prep.jpg" alt="Actuarial Prep">
+            <h2>Actuarial Prep</h2>
+            <p>Prepare for actuarial exams with structured notes and practice problems.</p>
+            <a href="actuarial-prep.html" class="button">View Actuarial Prep</a>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Julien's Math Notes. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
