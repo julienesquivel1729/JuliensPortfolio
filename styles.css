@@ -1,3 +1,17 @@
+/* Ensures all links remain white */
+a:link, a:visited {
+    color: white;
+    text-decoration: none; /* Removes underline */
+}
+
+a:hover {
+    color: #FFD700; /* Optional: Changes color when hovered */
+}
+
+a:active {
+    color: white; /* Keeps color white even when clicked */
+}
+
 /* General Styles */
 body {
     font-family: 'Arial', sans-serif;
