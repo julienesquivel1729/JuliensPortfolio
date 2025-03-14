@@ -1,3 +1,31 @@
+"""
+Pandemic SEIR Model Simulation
+
+This interactive model simulates the spread of infectious diseases using the SEIR framework, which categorizes individuals into four groups: 
+- Susceptible (S)
+- Exposed (E)
+- Infected (I)
+- Recovered (R)
+
+By adjusting the parameters below, you can explore different outbreak scenarios and analyze the effects of interventions such as quarantine, vaccination, and social distancing.
+
+Model Applications:
+- Public health planning and outbreak response.
+- Evaluating the effectiveness of vaccination campaigns.
+- Assessing the impact of social distancing and lockdown measures.
+- Estimating healthcare system burden and resource allocation.
+
+Parameter Explanations:
+- **Total Population:** The total number of individuals in the simulated population.
+- **Transmission Rate (Beta):** The probability of disease transmission per contact between susceptible and infected individuals.
+- **Incubation Period (Days):** The average time an individual remains in the exposed (E) category before becoming infectious.
+- **Infectious Period (Days):** The average duration an individual remains infectious before recovering or succumbing to the disease.
+- **Fatality Rate:** The proportion of infected individuals who do not recover.
+- **Initial Infected Individuals:** The starting number of infected individuals in the population.
+- **Initial Exposed Individuals:** The starting number of exposed individuals who have been infected but are not yet infectious.
+- **Simulation Days:** The number of days over which the outbreak is modeled.
+"""
+
 import streamlit as st
 import numpy as np
 import matplotlib.pyplot as plt
