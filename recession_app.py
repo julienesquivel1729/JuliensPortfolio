@@ -2,13 +2,27 @@ import streamlit as st
 import pandas as pd
 import lightgbm as lgb
 import pickle
+import os
+import urllib.request
 
-# Load the trained model from a saved file
+# 📌 GitHub URL for model file
+MODEL_URL = "https://raw.githubusercontent.com/julienesquivel1729/JuliensMathNotes/main/recession_model.pkl"
+MODEL_PATH = "recession_model.pkl"
+
+# 📌 Load the trained model (downloads from GitHub if not found)
 @st.cache_resource
 def load_model():
-    with open("recession_model.pkl", "rb") as file:
-        model = pickle.load(file)
-    return model
+    if not os.path.exists(MODEL_PATH):
+        st.info("Downloading model file...")
+        urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
+
+    try:
+        with open(MODEL_PATH, "rb") as file:
+            model = pickle.load(file)
+        return model
+    except Exception as e:
+        st.error(f"Error loading model: {e}")
+        return None
 
 # Load the pre-trained model
 model = load_model()
@@ -42,13 +56,17 @@ input_data = pd.DataFrame({
 
 # Prediction
 if st.button("Predict Recession"):
-    probability = model.predict_proba(input_data)[0][1]  # Probability of recession
-    
-    # Display Result
-    st.subheader("Prediction Result:")
-    if probability > 0.5:
-        st.error(f"⚠️ Recession Likely! (Probability: {probability:.2%})")
+    if model:
+        probability = model.predict_proba(input_data)[0][1]  # Probability of recession
+        
+        # Display Result
+        st.subheader("Prediction Result:")
+        if probability > 0.5:
+            st.error(f"⚠️ Recession Likely! (Probability: {probability:.2%})")
+        else:
+            st.success(f"✅ No Recession Expected (Probability: {probability:.2%})")
+        
+        st.markdown("**Disclaimer:** This model is based on historical economic data and should not be considered financial advice.")
     else:
-        st.success(f"✅ No Recession Expected (Probability: {probability:.2%})")
-    
-    st.markdown("**Disclaimer:** This model is based on historical economic data and should not be considered financial advice.")
+        st.error("🚨 Model failed to load. Please try again later.")
+
